@@ -1,9 +1,14 @@
 package com.castLabs.file;
 
+import com.castLabs.file.dtos.StructuredFile;
+import com.castLabs.file.exception.InvalidUrlException;
+import com.castLabs.file.exception.UnreadableFileException;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -15,7 +20,7 @@ public class FileService {
 
     private final List<String> parentBoxes = List.of("MOOF", "TRAF");
 
-    public StructuredFile analyzeFile(String fileUrl) throws Exception {
+    public StructuredFile analyzeFile(String fileUrl) {
         byte[] bytes = readFileBytes(fileUrl);
         List<Box> fileContent = getBoxes(bytes);
         return new StructuredFile(fileUrl, fileContent);
@@ -42,9 +47,16 @@ public class FileService {
         return boxes;
     }
 
-    private byte[] readFileBytes(String fileUrl) throws Exception {
-        URL url = new URL(fileUrl);
-        return IOUtils.toByteArray(url);
+    private byte[] readFileBytes(String fileUrl) {
+        try {
+            URL url = new URL(fileUrl);
+            return IOUtils.toByteArray(url);
+        } catch (MalformedURLException ex) {
+            throw new InvalidUrlException();
+        } catch (IOException ex) {
+            throw new UnreadableFileException();
+        }
+
     }
 
     private int getBoxSize(byte[] bytes, int boxStart) {

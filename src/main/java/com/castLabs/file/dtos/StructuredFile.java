@@ -1,5 +1,6 @@
-package com.castLabs.file;
+package com.castLabs.file.dtos;
 
+import com.castLabs.file.Box;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
