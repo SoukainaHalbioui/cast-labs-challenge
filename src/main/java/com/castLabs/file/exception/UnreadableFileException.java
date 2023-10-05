@@ -1,7 +1,10 @@
 package com.castLabs.file.exception;
 
 public class UnreadableFileException extends RuntimeException {
+
+    public static final String UNREADABLE_FILE_ERROR_MESSAGE = "File could not be read.";
+
     public UnreadableFileException() {
-        super("File could not be read.");
+        super(UNREADABLE_FILE_ERROR_MESSAGE);
     }
 }
