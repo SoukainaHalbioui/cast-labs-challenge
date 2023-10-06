@@ -1,5 +1,6 @@
 package com.castLabs.file;
 
+import com.castLabs.file.dtos.StructuredFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ public class FileController {
     private FileService fileService;
 
     @GetMapping(FILE_ANALYSIS_ENDPOINT)
-    public ResponseEntity<?> analyzeFile(@RequestParam(value = "file_url") String fileUrl) {
+    public ResponseEntity<StructuredFile> analyzeFile(@RequestParam(value = "file_url") String fileUrl) {
         return ResponseEntity.ok(fileService.analyzeFile(fileUrl));
     }
 }
